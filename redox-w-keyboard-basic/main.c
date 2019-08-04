@@ -3,7 +3,6 @@
  */
 
 #include "redox-w.h"
-#include "nrf_drv_config.h"
 #include "nrf_gzll.h"
 #include "nrf_gpio.h"
 #include "nrf_delay.h"

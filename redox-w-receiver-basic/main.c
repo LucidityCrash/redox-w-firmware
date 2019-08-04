@@ -45,10 +45,11 @@ static uint8_t data_payload_left[NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH];  ///< Place
 static uint8_t data_payload_right[NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH];  ///< Placeholder for data payload received from host.
 static uint8_t ack_payload[TX_PAYLOAD_LENGTH];                   ///< Payload to attach to ACK sent to device.
 static uint8_t data_buffer[10];
+static nrf_drv_uart_t app_uart_inst = NRF_DRV_UART_INSTANCE(0);
 
 // Debug helper variables
 extern nrf_gzll_error_code_t nrf_gzll_error_code;   ///< Error code
-static bool init_ok, enable_ok, push_ok, pop_ok, packet_received_left, packet_received_right;
+static bool packet_received_left, packet_received_right;
 uint32_t left_active = 0;
 uint32_t right_active = 0;
 uint8_t c;
@@ -208,7 +209,7 @@ int main(void)
         if (app_uart_get(&c) == NRF_SUCCESS && c == 's')
         {
             // sending data to QMK, and an end byte
-            nrf_drv_uart_tx(data_buffer,10);
+            nrf_drv_uart_tx(&app_uart_inst,data_buffer,10);
             app_uart_put(0xE0);
 
             // debugging help, for printing keystates to a serial console
